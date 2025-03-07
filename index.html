@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">  <!-- Для совместимости с IE -->
+    <link rel="shortcut icon" href="assets/img/icon.png" />
+    <title>С 8 марта</title>
+    <style>
+        /* Общие стили (опустил без изменений, за исключением видео) */
+        body {
+            font-family: 'Cursive', cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #f8f8f8;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: url("assets/img/фон.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Панель навигации */
+        .img1 {
+            width: 80%;
+            max-width: 250px;
+            margin: 0 auto 15px; /* Увеличиваем отступ снизу */
+            display: block;
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.05); /* Более прозрачный */
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            backdrop-filter: blur(10px); /* Увеличиваем размытие */
+            border-radius: 10px; /* Скругленные углы */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Более выраженная тень */
+            box-sizing: border-box;
+        }
+
+        /* Плашка для поздравления */
+        .family-greeting {
+            background-color: rgba(233, 30, 99, 0.05); /* Розовый оттенок */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            font-size: 1em;
+            box-sizing: border-box;
+            border: 1px solid rgba(233, 30, 99, 0.2); /* Рамочка */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анимация при наведении */
+        }
+
+        .family-greeting:hover {
+            transform: translateY(-5px); /* Приподнимаем при наведении */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+.family-greeting h2 {
+    color: #e91e63;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Тень для текста */
+}
+.family-greeting p {
+    font-size: 1.1em;
+    line-height: 1.5;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Тень для текста */
+}
+
+/* Для видео */
+.containe {
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+    border: 1px solid rgba(233, 30, 99, 0.2); /* Рамочка */
+}
+
+/* Кнопка */
+.video-button {
+    background-color: #e91e63;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease; /* Плавное изменение цвета */
+    box-sizing: border-box;
+}
+
+.video-button:hover {
+    background-color: #c03561;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Более темный фон */
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.05);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+    position: relative;
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease; /* Плавное изменение цвета */
+        }
+
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Стили для видео (Улучшено) */
+        .video-container {
+            text-align: center;
+            margin-top: 10px;
+            box-sizing: border-box;
+            position: relative; /*  Необходимо для фиксирования пропорций */
+            padding-bottom: 56.25%; /* 16:9 соотношение сторон (самое распространенное) */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Видео бэкграунд (Улучшено) */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #myVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /*  Важно для заполнения всего контейнера */
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        /* Футер */
+        footer {
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Тень сверху */
+            color: #ccc; /* Более светлый цвет текста */
+            font-size: 0.9em; /* Уменьшенный размер шрифта */
+        }
+
+        /* Убираем отступы между блоками, будем управлять через обертку */
+        .family-greeting:first-of-type {
+            margin-bottom: 0;
+        }
+
+        .family-greeting:last-of-type {
+            margin-top: 0;
+        }
+
+        /* Обертка для позиционирования */
+        .greeting-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .img1 {
+                width: 70%;
+                max-width: 200px;
+            }
+
+            .family-greeting h2 {
+                font-size: 1.2em;
+            }
+
+            .family-greeting p {
+                font-size: 1em;
+            }
+
+            .video-button {
+                font-size: 0.9em;
+            }
+
+            .modal-content {
+                margin: 25% auto;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .img1 {
+                width: 60%;
+                max-width: 150px;
+            }
+
+            .family-greeting h2 {
+                font-size: 1.1em;
+            }
+
+            .family-greeting p {
+                font-size: 0.9em;
+            }
+
+            .video-button {
+                font-size: 0.8em;
+            }
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cursive&display=swap');
+    </style>
+</head>
+<body>
+<!--видео  -->
+<div class="video-background">
+    <video autoplay muted loop id="myVideo">
+        <source src="assets/video/videoplayback.mp4" type="video/mp4">
+        <!-- Добавьте другие форматы для кроссбраузерности -->
+        <source src="assets/video/videoplayback.webm" type="video/webm">
+        <source src="assets/video/videoplayback.ogv" type="video/ogg">
+        Ваш браузер не поддерживает видео.
+    </video>
+</div>
+<div class="content">
+
+    <!-- ШАПОЧКА -->
+    <header class="nav">
+        <nav class="nav">
+            <div class="container">
+            </div>
+            <img class="img1" src="assets/img/free-png.ru-522-370x123.png" alt="8 Марта">
+        </nav>
+    </header>
+
+    <!-- ТЕЛО САЙТА -->
+    <section class="container">
+
+        <!--  ГРУППА  С ПОЗДРАВЛЕНИЕМ -->
+        <div class="greeting-wrapper">
+            <div class="family-greeting">
+                <h2>С 8 марта, Дорогая Семья!</h2>
+                <p>В этот прекрасный весенний день, когда всё вокруг расцветает и наполняется радостью, хочу поздравить всех родных! Желаю вам крепкого здоровья, безграничного счастья, благополучия и гармонии в каждом доме. Пусть ваши сердца всегда будут наполнены любовью, заботой и теплом друг к другу. Спасибо, что вы есть в моей жизни!</p>
+                <p>С любовью и наилучшими пожеланиями!</p>
+            </div>
+
+            <div class="containe">
+                <h2>Нажмите на кнопку, чтобы посмотреть видео!</h2>
+                <button class="video-button" onclick="openModal()">Показать видео</button>
+
+                <!-- Модальное окно -->
+                <div id="videoModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>видео поздравление</h2>
+                        <div class="video-container">
+                             <video width="100%" controls>
+                                <source src="assets/video/арменка поет.mp4" type="video/mp4">
+                                <!-- Добавьте другие форматы для кроссбраузерности -->
+                                <source src="assets/video/арменка поет.webm" type="video/webm">
+                                <source src="assets/video/арменка поет.ogv" type="video/ogg">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="family-greeting">
+                <h2>красоточки</h2>
+                <p>Безусловно! После просмотра этого видео, думаю, многие пережили бурю эмоций, от восторга и восхищения до глубокого сопереживания и вдохновения. Это было действительно незабываемое зрелище, затронувшее самые тонкие струны души.</p>
+                <p>Всем хорошего дня!</p>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+<!-- ПОДВАЛ САЙТА -->
+<footer>
+    <div class="container">
+        &copy; 2025 Сделано с любовью для всех девушек моей семьи
+    </div>
+</footer>
+
+<!-- скрипт -->
+<script>
+
+    // Получаем модальное окно
+    var modal = document.getElementById("videoModal");
+
+    // Функция открытия модального окна
+    function openModal() {
+        modal.style.display = "block";
+        document.body.style.overflow = 'hidden'; // Запрещаем прокрутку фона
+    }
+
+    // Функция закрытия модального окна
+    function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = 'auto';  // Разрешаем прокрутку фона
+    }
+
+    // Закрытие модального окна при клике вне окна
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // Закрытие модального окна при нажатии клавиши Esc
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    // Предотвращение прокрутки фона при открытом модальном окне
+    modal.addEventListener('wheel', function(event) {
+        event.preventDefault();
+    });
+</script>
+</body>
+</html>
